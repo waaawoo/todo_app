@@ -1,53 +1,24 @@
 import React from 'react';
 import Form from './form'
+import Select from './select'
+import List from './list'
+import AllDel from './AllDel'
 class App extends React.Component{
   render(){
     return(
       <div>
         {/* フォーム */}
         <Form />
-        <label htmlFor="">
-          <input type="checkbox"/>
-          全て完了にする
-        </label>
 
-        <select name="" id="">
-          <option value="">全て</option>
-          <option value="">未完了</option>
-          <option value="">完了済み</option>
-        </select>
+        {/* セレクト */}
+        < Select  />
 
-        <ul>
-          <li>
-            <label htmlFor="">
-              <input type="checkbox"/>
-              項目
-            </label>
-            <button>編集</button>
-            <button>削除</button>
-          </li>
+        {/* ul */}
+        < List  />
 
-          <li>
-            <label htmlFor="">
-              <input type="checkbox"/>
-              項目
-            </label>
-            <button>編集</button>
-            <button>削除</button>
-          </li>
 
-          <li>
-            <label htmlFor="">
-              <input type="checkbox"/>
-              項目
-            </label>
-            <button>編集</button>
-            <button>削除</button>
-          </li>
-
-        </ul>
-
-        <button>完了を全て削除する</button>
+        {/* allDel */}
+        <AllDel />
       </div>
     );
   }
