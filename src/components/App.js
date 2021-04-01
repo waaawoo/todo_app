@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from './form'
 import Select from './select'
-import List from './list'
+import Todo from './Todo'
 import AllDel from './AllDel'
 class App extends React.Component{
   render(){
@@ -14,7 +14,20 @@ class App extends React.Component{
         < Select  />
 
         {/* ul */}
-        < List  />
+        <ul>
+
+          {/* componentの再利用ができる */}
+          <li>
+            {/* textでpropsを渡せる *Todo.jsでthis.propsで受け取れる */}
+            <Todo id={0} text="項目1" />
+          </li>
+          <li>
+            <Todo id={0} text="項目2" />
+          </li>
+          <li>
+            <Todo id={0} text="項目3" />
+          </li>
+        </ul>
 
 
         {/* allDel */}
