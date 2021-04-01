@@ -15,7 +15,7 @@ class Form extends React.Component{
   }
   render(){
     return (
-      <form action="">
+      <form onSubmit={this.handleSubmit} >
           {/* valueに上で作成したstateを入れ、onChangeイベントにメソッドを指定 */}
           <input type="text" value={this.state.input} onChange={this.handleChange} />
           <button>追加</button>
@@ -23,11 +23,18 @@ class Form extends React.Component{
     );
   }
 
+  // 入力をjsで取得する関数
   handleChange = e => {
     //setStateはthis.stateで作ったものにデータをセットする
     // e(イベントで)取得した入力をセット
     this.setState({ input: e.currentTarget.value })
   };
+
+  // submitされた時の処理する関数
+  handleSubmit = e =>{
+    e.preventDefault(); // http送信を止めている(デフォルトの挙動を止める)
+    this.setState({input: ''}); //submitされたら中身を消す
+  }
 }
 
 export default Form;
