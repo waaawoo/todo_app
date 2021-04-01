@@ -1,14 +1,11 @@
 import React from 'react';
-
+import Form from './form'
 class App extends React.Component{
   render(){
     return(
       <div>
-        <form action="">
-          <input type="text"/>
-          <button>追加</button>
-        </form>
-
+        {/* フォーム */}
+        <Form />
         <label htmlFor="">
           <input type="checkbox"/>
           全て完了にする
