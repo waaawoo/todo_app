@@ -3,6 +3,9 @@ import Form from './form'
 import Select from './select'
 import Todo from './Todo'
 import AllDel from './AllDel'
+
+let currentId = 0;  // ID格納用変数
+
 class App extends React.Component{
   constructor(props){
     super(props);
@@ -18,7 +21,8 @@ class App extends React.Component{
     return(
       <div>
         {/* フォーム */}
-        <Form />
+        {/* イベント設置 */}
+        <Form onSubmit={this.handleSubmit} />
 
         {/* セレクト */}
         < Select  />
@@ -54,6 +58,20 @@ class App extends React.Component{
         <AllDel />
       </div>
     );
+  }
+
+  handleSubmit = text =>{
+    const newTodo = {
+      id: currentId,
+      text,
+    }
+
+    // ...this~ の書き方は一個ずつ配列を取り出し、最後に新しい要素をいれる書き方
+    const newTodos = [...this.state.todos, newTodo]
+
+    // stateを更新
+    this.setState( { todos: newTodos } )
+    currentId++;
   }
 }
 
