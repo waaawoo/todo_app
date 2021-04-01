@@ -33,9 +33,15 @@ class App extends React.Component{
               map: 要素分回す
               key: reactのルールで渡す必要があるもの
           */}
-          {this.state.todos.map(({ id, text }) => (
+          {this.state.todos.map(({ id, text, completed }) => (
             <li key={id}>
-              <Todo text={text} />
+              {/* イベント設置 */}
+              <Todo
+                id={id}
+                text={text}
+                completed={completed}
+                onChange={this.handleChangeCompleted}
+               />
             </li>
 
           ))}
@@ -60,10 +66,12 @@ class App extends React.Component{
     );
   }
 
+  // TODOのカラムのようなもの
   handleSubmit = text =>{
     const newTodo = {
       id: currentId,
       text,
+      completed: false
     }
 
     // ...this~ の書き方は一個ずつ配列を取り出し、最後に新しい要素をいれる書き方
@@ -72,7 +80,31 @@ class App extends React.Component{
     // stateを更新
     this.setState( { todos: newTodos } )
     currentId++;
-  }
+  };
+
+  handleChangeCompleted = (id, completed) => {
+
+    // mapで一個一個回して
+    const newTodos = this.state.todos.map(todo => {
+      // todoのIDとIDが一致したら
+      if(todo.id === id){
+
+        return {
+          // id,text,completedを埋め込んだオブジェクトを作成している
+          ...todo,
+          // 変更する値だけ切り出している
+          // completed: completed, keyとvalueが一緒なら省略可能
+          completed,
+          //
+        }
+      }
+      // 変更がないものはそのまま返す
+      return todo
+    });
+
+    // todosにnewTodos（定数）を代入
+    this.setState({ todos: newTodos })
+  };
 }
 
 // 今後はこっちの書き方が主流
