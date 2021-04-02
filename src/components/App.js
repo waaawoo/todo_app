@@ -4,6 +4,7 @@ import Select from './select'
 import Todo from './Todo'
 // import AllDel from './AllDel'
 import CheckAll from './CheckAll'
+import EditTodo from './EditTodo'
 
 let currentId = 0;  // ID格納用変数
 
@@ -65,16 +66,21 @@ class App extends React.Component{
               map: 要素分回す
               key: reactのルールで渡す必要があるもの
           */}
-          {filteredTodos.map(({ id, text, completed }) => (
+          {filteredTodos.map(({ id, text, completed, editing }) => (
             <li key={id}>
               {/* イベント設置 */}
-              <Todo
+              {/* コンポーネントの出し分けをする editingがtrueならEditTodoコンポーネントが表示 */}
+              {editing ?(
+                 <EditTodo />
+              ):(
+                <Todo
                 id={id}
                 text={text}
                 completed={completed}
-                onChange={this.handleChangeCompleted}
+                onChange={this.handleChangeTodoAttribute}
                 onDelete={this.handleClickDelete}
                />
+              )}
             </li>
 
           ))}
@@ -105,7 +111,8 @@ class App extends React.Component{
     const newTodo = {
       id: currentId,
       text,
-      completed: false
+      completed: false,
+      editing: false // 編集用ステータス
     }
 
     // ...this~ の書き方は一個ずつ配列を取り出し、最後に新しい要素をいれる書き方
@@ -126,7 +133,8 @@ class App extends React.Component{
     this.setState({ todos: newTodos });
   }
 
-  handleChangeCompleted = (id, completed) => {
+  //
+  handleChangeTodoAttribute = (id, key, value) => {
 
     // mapで一個一個回して
     const newTodos = this.state.todos.map(todo => {
@@ -137,8 +145,8 @@ class App extends React.Component{
           // id,text,completedを埋め込んだオブジェクトを作成している
           ...todo,
           // 変更する値だけ切り出している
-          // completed: completed, keyとvalueが一緒なら省略可能
-          completed,
+          // Keyの処理をvalueに変える
+          [key]: value,
           //
         }
       }
