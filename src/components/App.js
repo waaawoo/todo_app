@@ -13,6 +13,8 @@ class App extends React.Component{
 
     // stateの作成
     this.state = {
+      // filterのデフォルト値
+      filter: 'all',
       todos:  [
       ]
     }
@@ -20,7 +22,8 @@ class App extends React.Component{
   }
   render(){
     // todosにthis.stateを渡すthis.stateからtodosを抜き出している
-    const { todos } = this.state
+    // filterのデフォルト値セットして、selectに値をセットしている
+    const { todos, filter } = this.state
     return(
       <div>
         {/* フォーム */}
@@ -37,7 +40,8 @@ class App extends React.Component{
         />
 
         {/* セレクト */}
-        < Select  />
+        {/* 子に渡す関数をonChangeに設定し、関数を作成する */}
+        < Select filter={filter} onChange={this.handleChangeSelect}/>
 
         {/* ul */}
         <ul>
@@ -129,10 +133,16 @@ class App extends React.Component{
     this.setState({ todos: newTodos })
   };
 
+  // 完了したものを一括削除
   handleClickDeleteCompleted = () => {
     // 未完了のものだけnewTodosへ入る
     const newTodos = this.state.todos.filter(({ completed }) => !completed )
     this.setState({ todos: newTodos })
+  }
+
+  //
+  handleChangeSelect = filter => {
+    this.setState({filter})
   }
 }
 
