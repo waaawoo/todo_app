@@ -21,9 +21,25 @@ class App extends React.Component{
 
   }
   render(){
+
     // todosにthis.stateを渡すthis.stateからtodosを抜き出している
     // filterのデフォルト値セットして、selectに値をセットしている
     const { todos, filter } = this.state
+
+    // フィルター機能の用TODO
+    // completedの状態を見て表示を作る
+    const filteredTodos = todos.filter(({completed}) =>{
+      switch(filter){
+        case 'all':
+          return true;
+        case 'uncompleted' :
+          return !completed;
+        case 'completed':
+          return completed;
+        default:
+          return true;
+      }
+    })
     return(
       <div>
         {/* フォーム */}
@@ -49,7 +65,7 @@ class App extends React.Component{
               map: 要素分回す
               key: reactのルールで渡す必要があるもの
           */}
-          {todos.map(({ id, text, completed }) => (
+          {filteredTodos.map(({ id, text, completed }) => (
             <li key={id}>
               {/* イベント設置 */}
               <Todo
