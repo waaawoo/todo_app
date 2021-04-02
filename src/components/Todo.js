@@ -18,7 +18,7 @@ class Todo extends React.Component{
           {text}
         </label>
         <button>編集</button>
-        <button>削除</button>
+        <button onClick={this.handleClickDelete}>削除</button>
       </div>
     );
   }
@@ -30,7 +30,12 @@ class Todo extends React.Component{
     const { onChange, id, completed } = this.props
     // クリックするとBooleanが反転する
     onChange(id, !completed);
+  }
 
+  handleClickDelete = () => {
+    // 親からonDeleteとIDを受け取る
+    const { onDelete, id } = this.props
+    onDelete(id)
   }
 }
 

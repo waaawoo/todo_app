@@ -73,6 +73,7 @@ class App extends React.Component{
                 text={text}
                 completed={completed}
                 onChange={this.handleChangeCompleted}
+                onDelete={this.handleClickDelete}
                />
             </li>
 
@@ -160,6 +161,13 @@ class App extends React.Component{
   handleChangeSelect = filter => {
     this.setState({filter})
   }
+
+  handleClickDelete = id => {
+    // 入ってきたID以外のもので新たな配列を作成する
+    const newTodos = this.state.todos.filter(todo => todo.id !== id)
+    this.setState({ todos: newTodos })
+  }
+
 }
 
 // 今後はこっちの書き方が主流
