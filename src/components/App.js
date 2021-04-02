@@ -3,6 +3,7 @@ import Form from './form'
 import Select from './select'
 import Todo from './Todo'
 import AllDel from './AllDel'
+import CheckAll from './CheckAll'
 
 let currentId = 0;  // ID格納用変数
 
@@ -18,11 +19,22 @@ class App extends React.Component{
 
   }
   render(){
+    // todosにthis.stateを渡すthis.stateからtodosを抜き出している
+    const { todos } = this.state
     return(
       <div>
         {/* フォーム */}
         {/* イベント設置 */}
         <Form onSubmit={this.handleSubmit} />
+
+        {/* 全てボタン */}
+        {/* everyとは 配列に対して条件を書く trueならtrueを返す１つでもfalseならfalseを返す (({ completed }) => completed) */}
+        <CheckAll allCompleted={
+          // everyは要素が０でもtrueを返すため、それを防ぐ
+          todos.length > 0 &&
+          todos.every(({ completed }) => completed )}
+          onChange={this.handleChangeAllCompleted}
+        />
 
         {/* セレクト */}
         < Select  />
@@ -33,7 +45,7 @@ class App extends React.Component{
               map: 要素分回す
               key: reactのルールで渡す必要があるもの
           */}
-          {this.state.todos.map(({ id, text, completed }) => (
+          {todos.map(({ id, text, completed }) => (
             <li key={id}>
               {/* イベント設置 */}
               <Todo
@@ -81,6 +93,16 @@ class App extends React.Component{
     this.setState( { todos: newTodos } )
     currentId++;
   };
+
+  // 全て完了
+  handleChangeAllCompleted = completed => {
+    // 新しいTodosを作って入れている
+    const newTodos = this.state.todos.map(todo => ({
+      ...todo,
+      completed,
+    }));
+    this.setState({ todos: newTodos });
+  }
 
   handleChangeCompleted = (id, completed) => {
 
