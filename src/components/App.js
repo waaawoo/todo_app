@@ -13,14 +13,33 @@ class App extends React.Component{
 
     // stateの作成
     this.state = {
+      // filterのデフォルト値
+      filter: 'all',
       todos:  [
       ]
     }
 
   }
   render(){
+
     // todosにthis.stateを渡すthis.stateからtodosを抜き出している
-    const { todos } = this.state
+    // filterのデフォルト値セットして、selectに値をセットしている
+    const { todos, filter } = this.state
+
+    // フィルター機能の用TODO
+    // completedの状態を見て表示を作る
+    const filteredTodos = todos.filter(({completed}) =>{
+      switch(filter){
+        case 'all':
+          return true;
+        case 'uncompleted' :
+          return !completed;
+        case 'completed':
+          return completed;
+        default:
+          return true;
+      }
+    })
     return(
       <div>
         {/* フォーム */}
@@ -37,7 +56,8 @@ class App extends React.Component{
         />
 
         {/* セレクト */}
-        < Select  />
+        {/* 子に渡す関数をonChangeに設定し、関数を作成する */}
+        < Select filter={filter} onChange={this.handleChangeSelect}/>
 
         {/* ul */}
         <ul>
@@ -45,7 +65,7 @@ class App extends React.Component{
               map: 要素分回す
               key: reactのルールで渡す必要があるもの
           */}
-          {todos.map(({ id, text, completed }) => (
+          {filteredTodos.map(({ id, text, completed }) => (
             <li key={id}>
               {/* イベント設置 */}
               <Todo
@@ -129,10 +149,16 @@ class App extends React.Component{
     this.setState({ todos: newTodos })
   };
 
+  // 完了したものを一括削除
   handleClickDeleteCompleted = () => {
     // 未完了のものだけnewTodosへ入る
     const newTodos = this.state.todos.filter(({ completed }) => !completed )
     this.setState({ todos: newTodos })
+  }
+
+  //
+  handleChangeSelect = filter => {
+    this.setState({filter})
   }
 }
 
