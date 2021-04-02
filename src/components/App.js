@@ -2,7 +2,7 @@ import React from 'react';
 import Form from './form'
 import Select from './select'
 import Todo from './Todo'
-import AllDel from './AllDel'
+// import AllDel from './AllDel'
 import CheckAll from './CheckAll'
 
 let currentId = 0;  // ID格納用変数
@@ -73,7 +73,8 @@ class App extends React.Component{
 
 
         {/* allDel */}
-        <AllDel />
+        {/* <AllDel /> */}
+        <button onClick={this.handleClickDeleteCompleted}>完了を全て削除する</button>
       </div>
     );
   }
@@ -127,6 +128,12 @@ class App extends React.Component{
     // todosにnewTodos（定数）を代入
     this.setState({ todos: newTodos })
   };
+
+  handleClickDeleteCompleted = () => {
+    // 未完了のものだけnewTodosへ入る
+    const newTodos = this.state.todos.filter(({ completed }) => !completed )
+    this.setState({ todos: newTodos })
+  }
 }
 
 // 今後はこっちの書き方が主流
