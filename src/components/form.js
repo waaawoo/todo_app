@@ -33,6 +33,7 @@ class Form extends React.Component{
   // submitされた時の処理する関数
   handleSubmit = e =>{
     e.preventDefault(); // http送信を止めている(デフォルトの挙動を止める)
+    if (!this.state.input) return //から入力対応
     this.props.onSubmit(this.state.input) //submitした時にApp.jsのpropsを渡す
     this.setState({input: ''}); //submitされたら中身を消す
   }
