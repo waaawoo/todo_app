@@ -1,8 +1,43 @@
 import React from 'react'
 
 class EditTodo extends React.Component{
+  constructor(props){
+    super(props)
+
+    this.state = {
+      // 初期情報
+      text: props.text
+    }
+  }
+
   render(){
-    return <div>ほげ</div>
+    return <div>
+      <input
+      type="text"
+      value={this.state.text}
+      onChange={this.handleChange}
+      />
+      <button onClick={ this.handleClickCancel }>キャンセル</button>
+      <button onClick={ this.handleSubmit }>更新</button>
+    </div>
+
+  }
+
+  handleChange = e =>{
+    this.setState({ text: e.currentTarget.value })
+  }
+
+  handleClickCancel = () =>{
+    const { onCancel, id} = this.props
+    onCancel(id, "editing", false);
+
+  }
+
+  handleSubmit = () => {
+    const {onSubmit, id} = this.props
+    // 空対策
+    if (!this.props.text) return
+    onSubmit(id, this.state.text)
   }
 }
 

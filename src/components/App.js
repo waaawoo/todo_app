@@ -71,14 +71,19 @@ class App extends React.Component{
               {/* イベント設置 */}
               {/* コンポーネントの出し分けをする editingがtrueならEditTodoコンポーネントが表示 */}
               {editing ?(
-                 <EditTodo />
+                 <EditTodo
+                    id={id}
+                    text={text}
+                    onCancel={this.handleChangeTodoAttribute}
+                    onSubmit={this.handleUpdateTodoText}
+                  />
               ):(
                 <Todo
-                id={id}
-                text={text}
-                completed={completed}
-                onChange={this.handleChangeTodoAttribute}
-                onDelete={this.handleClickDelete}
+                  id={id}
+                  text={text}
+                  completed={completed}
+                  onChange={this.handleChangeTodoAttribute}
+                  onDelete={this.handleClickDelete}
                />
               )}
             </li>
@@ -154,9 +159,24 @@ class App extends React.Component{
       return todo
     });
 
+
     // todosにnewTodos（定数）を代入
     this.setState({ todos: newTodos })
   };
+
+  handleUpdateTodoText = (id, text) => {
+    const newTodos = this.state.todos.map(todo => {
+      if (todo.id === id){
+        return {
+          ...todo,
+          text,
+          editing: false,
+        };
+      }
+      return Todo
+    });
+    this.setState({ todos: newTodos });
+  }
 
   // 完了したものを一括削除
   handleClickDeleteCompleted = () => {
